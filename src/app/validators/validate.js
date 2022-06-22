@@ -1,12 +1,25 @@
 module.exports = (validator) => {
   const isValid = validator.validateAsync instanceof Function;
-  if (!isValid) throw new Error('Invalid ');
+  if (!isValid) throw new Error('Invalid validator argument type, expect Function.');
 
   return async function (req, res, next) {
-    const validated = await validator.validateAsync(req.body);
-    console.log('VALIDATED', validated);
-    console.log('ENV', process.env.NODE_ENV);
+    try {
+      const validated = await validator.validateAsync(req.body);
+      req.body = validated;
 
-    next();
+      next();
+    } catch (error) {
+      if (error.isJoi) {
+        return res.status(400).json({
+          message: error.message,
+          success: false,
+        });
+      }
+
+      res.status(500).json({
+        success: false,
+        message: 'Failed to validate request body',
+      });
+    }
   };
 };

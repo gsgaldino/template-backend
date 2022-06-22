@@ -4,6 +4,8 @@ const cors = require('cors');
 const helmet = require('helmet');
 const routes = require('./routes');
 
+const { token } = require('./app/middlewares');
+
 class App {
   constructor() {
     this.server = express();
@@ -17,6 +19,7 @@ class App {
     this.server.use(express.json());
     this.server.use(helmet());
     this.server.use(morgan('dev'));
+    this.server.use(token);
   }
 
   routes() {
