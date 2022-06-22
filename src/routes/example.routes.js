@@ -1,7 +1,6 @@
 const routes = require('express').Router();
 const ExampleController = require('../app/controllers/ExampleController');
-const { ExampleValidator } = require('../app/validators');
-const { validate } = require('../app/middlewares');
+const { ExampleValidator, validate } = require('../app/validators');
 
 routes
   .get('/', ExampleController.index)
