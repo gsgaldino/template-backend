@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
 
   if (!authorization) {
     return res.status(401).json({
-      error: 'Token is required',
+      message: 'Token is required',
     });
   }
 
@@ -13,13 +13,13 @@ module.exports = (req, res, next) => {
 
   if (keyword !== 'Bearer') {
     return res.status(401).json({
-      error: 'Invalid token format',
+      message: 'Invalid token format',
     });
   }
 
   if (token !== uuid) {
     return res.status(401).json({
-      error: 'Invalid token',
+      message: 'Invalid token',
     });
   }
 
